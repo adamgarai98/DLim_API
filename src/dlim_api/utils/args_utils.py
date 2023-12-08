@@ -38,14 +38,16 @@ def add_boolean_arg(parser: ArgumentParser, name: str, desc: str, default: bool 
 
 
 @dataclass
-class Args:
+class FlaskServerArgs:
     """Data Class for storing CL args"""
 
-    log_level: int = int(os.getenv("LOGGING_LEVEL", 20))
-    console_log: bool | None = bool(os.getenv("STREAM_LOGS", True))
+    host: str = "0.0.0.0"
+    port: int = 5000
+    log_level: int = logging.INFO
+    console_log: bool = True
 
 
-def parse_args() -> Args:
+def parse_flask_server_args() -> FlaskServerArgs:
     """Parses CL args into a Args object
     Returns
     -------
@@ -53,6 +55,8 @@ def parse_args() -> Args:
         Args object containing all the
     """
     arg_parser = ArgumentParser()
+    arg_parser.add_argument("-ho", "--host", type=str, dest="host", default="0.0.0.0")
+    arg_parser.add_argument("-p", "--port", type=int, dest="port", default=5000)
     arg_parser.add_argument(
         "-ll",
         "--log-level",
@@ -61,7 +65,5 @@ def parse_args() -> Args:
         dest="log_level",
         help="The log level of logging",
     )
-    arg_parser.add_argument(
-        "-cl", "--console-log", dest="console_log", type=bool, default=True, help="Whether to stream logs to the console. "
-    )
-    return Args(**OrderedDict(vars(arg_parser.parse_args())))
+    add_boolean_arg(arg_parser, "console-log", "Log to console", default=True)
+    return FlaskServerArgs(**OrderedDict(vars(arg_parser.parse_args())))
