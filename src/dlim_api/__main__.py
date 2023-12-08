@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import logging
 
-from dlim_api.utils.args_utils import parse_args
-from dlim_api.utils.logging_utils import setup_logger
+from utils.args_utils import parse_args
+from utils.logging_utils import setup_logger
 
 logger = logging.getLogger(__name__)
 
