@@ -1,0 +1,56 @@
+{
+    "cSpell.enabled": false,
+    "editor.inlineSuggest.enabled": true,
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "python.formatting.provider": "black",
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "black-formatter.args": [
+        "--line-length",
+        "140"
+    ],
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.pylintArgs": [
+        "--disable=W0611"
+    ],
+    "python.linting.pylintCategorySeverity.convention": "Hint",
+    "autoDocstring.docstringFormat": "numpy",
+    "git.autofetch": true,
+    "editor.formatOnSave": true,
+    "yaml.customTags": [
+        "!And",
+        "!And sequence",
+        "!If",
+        "!If sequence",
+        "!Not",
+        "!Not sequence",
+        "!Equals",
+        "!Equals sequence",
+        "!Or",
+        "!Or sequence",
+        "!FindInMap",
+        "!FindInMap sequence",
+        "!Base64",
+        "!Join",
+        "!Join sequence",
+        "!Cidr",
+        "!Ref",
+        "!Sub",
+        "!Sub sequence",
+        "!GetAtt",
+        "!GetAZs",
+        "!ImportValue",
+        "!ImportValue sequence",
+        "!Select",
+        "!Select sequence",
+        "!Split",
+        "!Split sequence"
+    ],
+    "terminal.integrated.defaultProfile.windows": "Command Prompt"
+}
