@@ -19,20 +19,18 @@ for blueprint in blueprints:
 
 @app.route("/healthcheck")
 def healthcheck():
-    app.logger.info("Healthcheck")  # TODO both these actually work lol
-    logger.info("Base logger")
+    app.logger.info("Healthcheck")  # Can do app.logger or just logger
     return "OK"
 
 
 def run_server(host: str = "0.0.0.0", port: int = 5000, debug: bool = False) -> None:
-    # app.logger.info("Starting server...")
     app.run(host=host, port=port, debug=debug)
 
 
 def main():
     args = parse_flask_server_args()
     setup_logger(args.log_level, args.console_log)
-    run_server(args.host, args.port, False if args.log_level == logging.DEBUG else True)
+    run_server(args.host, args.port, args.log_level == logging.DEBUG)  # TODO probably swap this around
 
 
 # Turns out this never actually runs if building the package
