@@ -84,6 +84,7 @@ target/
 
 # Jupyter Notebook
 debug.ipynb
+tests.ipynb
 .ipynb_checkpoints
 
 # IPython
