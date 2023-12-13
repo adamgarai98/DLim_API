@@ -55,10 +55,12 @@ def load_sam():  # TODO cuda or not
 def segment_image(image):
     image_name = image.filename
     PATH_TO_IMG = IMAGE_DIR / image_name
-    image = Image.open(image.stream)
 
+    image = Image.open(image.stream)
     image = np.asarray(image)
+
     masks = mask_generator.generate(image)
+
     image = Image.fromarray(image)
     image_masks = Image.fromarray(np.uint8(get_masks(masks) * 255))
     image.paste(image_masks, (0, 0), image_masks)
