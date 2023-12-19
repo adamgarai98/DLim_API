@@ -1,6 +1,6 @@
 # DLim_api
 
-Can install using pip or build with docker 
+Can be installed using pip or built with docker
 
 *TODO*
 
