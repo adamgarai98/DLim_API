@@ -3,7 +3,12 @@
 Can be installed using pip or built with docker
 
 *TODO*
-
+Installation instructions
+API endpoints + explanation
+CUDA
+platform dependant
+args
+explanation
 
 ## Version Bumping through PR titles
 My repository uses an automated versioning system that relies on the naming convention of the pull request titles. When you merge a pull request into the dev branch, the version number of the project is automatically bumped and a new tag is created, based on the prefix in your PR title.
