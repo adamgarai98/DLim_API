@@ -37,7 +37,7 @@ def send_racoon():
     return send_file(PATH_TO_RACOON, mimetype="image/jpeg")
 
 
-@sam_blueprint.route("/sam", methods=["PUT"])
+@sam_blueprint.route("/sam/load", methods=["PUT"])
 def load_sam():
     try:
         sam_utils.load_sam()
@@ -46,7 +46,7 @@ def load_sam():
         return str(e)
 
 
-@sam_blueprint.route("/sam", methods=["POST"])
+@sam_blueprint.route("/sam/segment", methods=["POST"])
 def segment_image():
     # img.save(PATH_TO_IMG)
     image = request.files["image"]
