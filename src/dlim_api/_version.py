@@ -52,8 +52,8 @@ def get_config() -> VersioneerConfig:
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = "v"
-    cfg.parentdir_prefix = "todo_api-"
-    cfg.versionfile_source = "src/todo_api/_version.py"
+    cfg.parentdir_prefix = "dlim_api-"
+    cfg.versionfile_source = "src/dlim_api/_version.py"
     cfg.verbose = False
     return cfg
 

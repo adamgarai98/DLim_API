@@ -15,6 +15,8 @@ setuptools.setup(
     package_dir={"": "src"},
     include_package_data=True,
     install_requires=install_requires,
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     packages=setuptools.find_packages(where="src"),
     entry_points={
         "console_scripts": [
