@@ -5,8 +5,8 @@ Can be installed using pip or built with docker
 *TODO*
 Installation instructions
 API endpoints + explanation
-CUDA
-platform dependant
+CUDA (platform dependant)
+CUDA (docker)
 args
 explanation
 
