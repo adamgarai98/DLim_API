@@ -49,6 +49,7 @@ def load_sam():  # TODO cuda or not
         mask_generator = SamAutomaticMaskGenerator(model=sam, points_per_batch=32)
         return
     except Exception as e:
+        logger.error(str(e))
         return str(e)
 
 
