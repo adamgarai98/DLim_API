@@ -10,7 +10,15 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from flask import Blueprint, abort, current_app, jsonify, request, send_file
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    jsonify,
+    make_response,
+    request,
+    send_file,
+)
 from PIL import Image
 from segment_anything import SamAutomaticMaskGenerator, SamPredictor, sam_model_registry
 
@@ -23,11 +31,6 @@ sam_blueprint = Blueprint("sam", __name__)
 
 WORK_DIR = Path().absolute()
 IMAGE_DIR = WORK_DIR / "src/dlim_api/images"
-
-
-@sam_blueprint.route("/blueprint-hc", methods=["GET"])
-def bp_hc():
-    return "BP OK"
 
 
 @sam_blueprint.route("/racoon-in-a-suit", methods=["GET"])
@@ -43,14 +46,31 @@ def load_sam():
         sam_utils.load_sam()
         return "Successfuly loaded SAM"
     except Exception as e:
+        logger.error(str(e))
         return str(e)
 
 
-@sam_blueprint.route("/sam/segment", methods=["POST"])
+@sam_blueprint.route("/sam/segment/image-only", methods=["POST"])
 def segment_image():
     # img.save(PATH_TO_IMG)
+    if "image" not in request.files:
+        logger.info("No image provided")
+        return jsonify({"error": "No image provided"}), 400
+
     image = request.files["image"]
+
     try:
-        return send_file(sam_utils.segment_image(image))
+        image_path = sam_utils.segment_image(image)
+        image_response = make_response(send_file(image_path))
+        os.remove(image_path)
+        logger.info(os.path.isfile(image_path))  # Seems to be deleting
+        additional_data = {"status": "completed", "message": "Image served successfully"}
+        # response.headers["Content-Type"] = "application/json"
+        # response.set_data(jsonify(additional_data).data)
+        final_response = make_response(image_response.get_data())
+        final_response.headers.extend(image_response.headers)
+        final_response.set_data(jsonify(additional_data).get_data())
+        return final_response
     except Exception as e:
+        logger.error(str(e))
         return str(e)
