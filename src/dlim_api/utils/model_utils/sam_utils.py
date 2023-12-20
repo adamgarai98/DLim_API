@@ -38,6 +38,7 @@ def get_masks(anns):
 
 
 def load_sam():  # TODO cuda or not
+    global mask_generator
     try:
         WORK_DIR = Path().absolute()  # Gets current working dir
         SAM_CHECKPOINT = WORK_DIR / "src/dlim_api/utils/model_checkpoints/sam_vit_h_4b8939.pth"
@@ -45,7 +46,6 @@ def load_sam():  # TODO cuda or not
         device = "cuda"
         sam = sam_model_registry[model_type](checkpoint=SAM_CHECKPOINT)
         sam.to(device=device)
-        global mask_generator
         mask_generator = SamAutomaticMaskGenerator(model=sam, points_per_batch=32)
         return
     except Exception as e:
@@ -53,17 +53,22 @@ def load_sam():  # TODO cuda or not
         return str(e)
 
 
-def segment_image(image):
-    image_name = image.filename
-    PATH_TO_IMG = IMAGE_DIR / image_name
+def segment_image(image_path):
+    try:
+        # image = open(image_path)
 
-    image = Image.open(image.stream)
-    image = np.asarray(image)
+        # image_name = image.filename
+        # PATH_TO_IMG = IMAGE_DIR / image_name
 
-    masks = mask_generator.generate(image)
+        image = Image.open(image_path)
+        image = np.asarray(image)
 
-    image = Image.fromarray(image)
-    image_masks = Image.fromarray(np.uint8(get_masks(masks) * 255))
-    image.paste(image_masks, (0, 0), image_masks)
-    image.save(PATH_TO_IMG)
-    return PATH_TO_IMG
+        masks = mask_generator.generate(image)
+
+        image = Image.fromarray(image)
+        image_masks = Image.fromarray(np.uint8(get_masks(masks) * 255))
+        image.paste(image_masks, (0, 0), image_masks)
+        image.save(image_path)
+        return image_path
+    except Exception as e:
+        logger.error(str(e))
