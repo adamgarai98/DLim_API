@@ -8,6 +8,8 @@ import torch
 from PIL import Image
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 
+task_data = {}
+
 logger = logging.getLogger(__name__)
 
 WORK_DIR = Path().absolute()
@@ -18,6 +20,19 @@ mask_generator = None  # TODO hmm
 
 
 def get_masks(anns):
+    """
+    Based on the annotations from
+
+    Parameters
+    ----------
+    anns :
+        Annotations generated from SAM mask generator
+
+    Returns
+    -------
+    img :
+        The generated masks ready for pasting.
+    """
     if len(anns) == 0:
         return
     sorted_anns = sorted(anns, key=(lambda x: x["area"]), reverse=True)
@@ -31,6 +46,9 @@ def get_masks(anns):
 
 
 def load_sam():
+    """
+    Loads SAMs mask generator into a global object.
+    """
     global mask_generator
     try:
         WORK_DIR = Path().absolute()  # Gets current working dir
@@ -48,6 +66,20 @@ def load_sam():
 
 
 def segment_image(image_path):
+    """
+    Uses a SAM mask generator to open an image from a path, generate then paste masks over it
+    and save the image in the same image path.
+
+    Parameters
+    ----------
+    image_path : Path/String
+        Path to image
+
+    Returns
+    -------
+    image_path : Path/String
+        Path to new image
+    """
     try:
         # Open image
         image = Image.open(image_path)
@@ -81,6 +113,16 @@ def segment_image(image_path):
 
 
 def run_segment_image(image_path, task_id):
+    """
+    Function for calling segmentation and updating the task dictionary.
+
+    Parameters
+    ----------
+    image_path :
+        Path to image
+    task_id :
+        Generated task id
+    """
     global task_data
     task_data[task_id] = {}
     current_task = task_data[task_id]
