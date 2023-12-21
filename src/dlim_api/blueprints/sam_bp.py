@@ -22,8 +22,6 @@ IMAGE_DIR = WORK_DIR / "src/dlim_api/images"
 
 executor = concurrent.futures.ThreadPoolExecutor()
 
-task_data = {}
-
 
 @sam_blueprint.route("/sam/load", methods=["PUT"])
 def load_sam():
@@ -37,9 +35,6 @@ def load_sam():
 
 @sam_blueprint.route("/sam/segment/", methods=["POST"])
 def segment_image():
-    # Declare as global since modifying
-    global task_data
-
     # Check if there is an image
     if "image" not in request.files:
         logger.info("No image provided")
@@ -63,7 +58,7 @@ def segment_image():
 @sam_blueprint.route("/sam/segment/status/<task_id>", methods=["GET"])
 def get_segementation_status(task_id):
     # Check the status of the task
-    task = task_data.get(task_id, {"status": "not_found", "message": "Task not found"})
+    task = sam_utils.task_data.get(task_id, {"status": "not_found", "message": "Task not found"})
 
     # If task is completed return image
     if task["status"] == "completed":
