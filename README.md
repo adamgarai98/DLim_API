@@ -3,7 +3,7 @@
 
 **This repository contains my Deep Learning IMage (DLim) API project, which is essentialy a RESTful Python API implemented using Flask, which allows a user to upload images and run inference using pre-built models.**
 
-Some current features: SAM, concurrency, status of tasks, Docker, CUDA, arguments parsing (log levels, host, port), automatic versioning, exception handling.
+Some current features: SAM, multithreading, status of tasks, Docker, CUDA, arguments parsing (log levels, host, port), automatic versioning, exception handling.
 
 Todo: Iterative solving of CUDA out of memory errors. More models. Return masks.
 
